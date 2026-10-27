@@ -1,0 +1,21 @@
+{
+  "verified_on": "2026-10-27",
+  "books": [
+    {
+      "file": "money-management.jpg",
+      "image": "https://image.yes24.com/goods/191943724/xl",
+      "title": "썬바라미 돈 관리의 기술",
+      "isbn": "9791164848942",
+      "yes24": "https://www.yes24.com/product/goods/191943724",
+      "kyobo": "https://product.kyobobook.co.kr/detail/S000220241965"
+    },
+    {
+      "file": "budget-2027.jpg",
+      "image": "https://image.yes24.com/goods/198342823/xl",
+      "title": "2027 썬바라미 재테크 가계부",
+      "isbn": "9791143423207",
+      "yes24": "https://www.yes24.com/product/goods/198342823",
+      "kyobo": "https://product.kyobobook.co.kr/detail/S000221663922"
+    }
+  ]
+}

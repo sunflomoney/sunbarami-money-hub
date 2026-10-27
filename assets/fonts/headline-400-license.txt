@@ -1,0 +1,3 @@
+Copyright 2015 The Black Han Sans Project Authors (https://github.com/zesstype/Black-Han-Sans)
+
+https://openfontlicense.org
