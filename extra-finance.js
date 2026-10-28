@@ -11,6 +11,15 @@
     const adjusted = Math.abs(scaled - nearest) <= 16 * Number.EPSILON * Math.max(1, Math.abs(scaled)) ? nearest : scaled;
     return (up ? Math.ceil(adjusted) : Math.floor(adjusted)) / scale;
   }
+  function quantityPrecision(value, field) {
+    const rounded = Math.round(value * 1e6) / 1e6;
+    if (Math.abs(value - rounded) > 16 * Number.EPSILON * Math.max(1, Math.abs(value))) {
+      const error = new Error('수량은 소수점 6자리까지 입력해 주세요.'); error.field = field; throw error;
+    }
+  }
+  function purchasableQuantity(amount, price, fractional) {
+    return quantize(amount / price, fractional ? 1e6 : 1, false);
+  }
   function loan(values) {
     const p = number(values.principal, 1, 1e10, 'loan-principal', '대출 잔액');
     const rate = number(values.rate, 0, 30, 'loan-rate', '연 금리') / 1200;
@@ -48,8 +57,11 @@
     const buyPrice = number(values.buyPrice, 0.000001, 1e9, 'stock-buy-price', '추가 매수가');
     number(values.order, 0, values.mode === 'amount' ? 1e12 : 1e9, 'stock-order', '추가 매수 수량 또는 금액', values.mode === 'quantity' && !values.fractional);
     if (!['quantity','amount'].includes(values.mode)) throw new Error('추가 매수 방식을 선택해 주세요.');
-    const rawQuantity = values.mode === 'amount' ? values.order / buyPrice : values.order;
-    const additionalQuantity = quantize(rawQuantity, values.fractional ? 1e6 : 1, false);
+    if (values.fractional) {
+      quantityPrecision(quantity, 'stock-quantity');
+      if (values.mode === 'quantity') quantityPrecision(values.order, 'stock-order');
+    }
+    const additionalQuantity = values.mode === 'amount' ? purchasableQuantity(values.order, buyPrice, values.fractional) : quantize(values.order, values.fractional ? 1e6 : 1, false);
     number(additionalQuantity, 0, 1e9, 'stock-order', '추가 매수 수량 (최대 10억 주)');
     const spent = additionalQuantity * buyPrice;
     const cost = oldPrice * quantity, totalCost = cost + spent, totalQuantity = quantity + additionalQuantity;
@@ -65,7 +77,8 @@
     const raw = values.quantity * (values.oldPrice - targetPrice) / (targetPrice - values.buyPrice);
     if (!Number.isFinite(raw) || raw > 1e9 || raw * values.buyPrice > 1e15) return { tooLarge: true };
     const quantity = quantize(raw, values.fractional ? 1e6 : 1, true);
+    if (quantity > 1e9 || values.oldPrice * values.quantity + quantity * values.buyPrice > 1e15) return { tooLarge: true };
     return { quantity, amount: quantity * values.buyPrice, average: (values.oldPrice * values.quantity + quantity * values.buyPrice) / (values.quantity + quantity) };
   }
-  root.HubCalculators = Object.freeze({ loan, average, target });
+  root.HubCalculators = Object.freeze({ loan, average, target, purchasableQuantity });
 })(typeof window !== 'undefined' ? window : globalThis);

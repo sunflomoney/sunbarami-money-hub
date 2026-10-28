@@ -24,12 +24,12 @@
   <meta name="twitter:description" content="재테크 핵심글과 추천 도서, 내 숫자로 계산하는 재테크 도구">
   <meta name="twitter:image" content="https://sunflomoney.github.io/sunbarami-money-hub/assets/sunbarami-share.jpg">
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261028-review1">
   <script src="data.js" defer></script>
   <script src="finance.js" defer></script>
-  <script src="app.js" defer></script>
-  <script src="extra-finance.js" defer></script>
-  <script src="extra-calculators.js" defer></script>
+  <script src="app.js?v=20261028-review1" defer></script>
+  <script src="extra-finance.js?v=20261028-review1" defer></script>
+  <script src="extra-calculators.js?v=20261028-review1" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">본문 바로가기</a>
@@ -152,6 +152,7 @@
             <label>세율 (수익에 적용) <span class="unit-input"><input id="tax-rate" type="number" inputmode="decimal" min="0" max="100" step="any" value="15.4" aria-describedby="calc-error calc-assumptions"><span>%</span></span></label>
           </div>
           <p id="calc-unit" class="sr-only">금액 입력 단위는 만원입니다.</p>
+          <p class="calc-note">기본값인 물가상승률 3%와 세율 15.4%는 계산용 가정입니다. 실제 상품·계좌의 세율과 과세 시점은 다를 수 있습니다.</p>
           <p id="calc-error" class="calc-error" role="alert" hidden></p>
           <div class="calc-result" aria-live="polite" aria-atomic="true">
             <span>예상 세후 금액</span><strong id="future-value">—</strong>
@@ -163,7 +164,7 @@
           <div class="split-bar" role="img" aria-label="납입 원금과 세후 수익의 비율">
 <span id="invested-bar"></span><span id="gain-bar"></span>
 </div>
-          <p id="calc-assumptions" class="calc-note">월말 납입·월복리, 월 이율 = 연 수익률 ÷ 12. 종료 시점의 수익에만 입력 세율을 한 번 적용하며, 손실이면 세금은 0원입니다.<br>현재 가치 = 세후 금액 ÷ (1 + 연 물가상승률)<sup>투자 기간</sup>. 연도별 결과는 그해에 투자를 종료한다고 가정합니다. 수수료와 상품·계좌별 공제·과세 차이는 반영하지 않습니다. 수익률은 보장되지 않습니다.</p>
+          <p id="calc-assumptions" class="calc-note">월말 납입·월복리, 월 이율 = 연 수익률 ÷ 12. 종료 시점의 수익에만 입력 세율을 한 번 적용하며, 손실이면 세금은 0원입니다. 배당·이자 지급 때마다 세금을 내는 구조는 반영하지 않습니다.<br>현재 가치 = 세후 금액 ÷ (1 + 연 물가상승률)<sup>투자 기간</sup>. 연도별 결과는 그해에 투자를 종료한다고 가정합니다. 요약 금액과 연도별 표는 만원 단위로 반올림하며, 요약 금액 중 만원 미만은 원 단위로 표시합니다. 수수료와 상품·계좌별 공제·과세 차이는 반영하지 않습니다. 수익률은 보장되지 않습니다.</p>
           <details class="yearly-details"><summary>연도별 세금·현재 가치 보기</summary><div class="table-scroll" tabindex="0" role="region" aria-label="연도별 투자 결과, 가로로 스크롤할 수 있습니다"><table>
 <caption class="sr-only">연도별 적립식 투자 결과 (단위: 만원)</caption>
 <thead><tr>
@@ -197,7 +198,7 @@
     <tr><th scope="row">남은 기간</th><td id="loan-term-before" data-loan-result>—</td><td id="loan-term-after" data-loan-result>—</td></tr>
   </tbody></table></div>
   <p class="calculation-summary" id="loan-summary" aria-live="polite"></p>
-  <p id="loan-note" class="calc-note">지금 조기상환하고 다음 달부터 납부하는 고정금리·월 단위 가정입니다. 월 이율 = 연 금리 ÷ 12. 수수료 = 조기상환액 × 입력 수수료율이며, 은행에서 안내받은 실제 적용 요율을 입력하세요. 기간 단축은 기존 월 납입액(원리금균등) 또는 월 상환 원금(원금균등)을 유지하는 가정입니다. 만기일시상환은 월이자 감소만 비교합니다. 실제 일수·원 단위 처리·계약 조건에 따라 달라질 수 있습니다.</p>
+  <p id="loan-note" class="calc-note">지금 조기상환하고 다음 달부터 납부하는 고정금리·월 단위 가정입니다. 월 이율 = 연 금리 ÷ 12. 수수료 = 조기상환액 × 입력 수수료율이며, 은행에서 안내받은 실제 적용 요율을 입력하세요. 절약액은 남은 총이자 차이에서 수수료를 뺀 금액입니다. 음수면 수수료가 절감 이자보다 큽니다. 기회비용과 현재가치 할인은 제외합니다. 기간 단축은 기존 월 납입액(원리금균등) 또는 월 상환 원금(원금균등)을 유지하는 가정입니다. 만기일시상환은 월이자 감소만 비교합니다. 실제 일수·원 단위 처리·계약 조건에 따라 달라질 수 있습니다.</p>
   <details class="yearly-details"><summary>월별 상환 내역 보기</summary><div class="table-scroll" tabindex="0" role="region" aria-label="월별 대출 상환 내역"><table><caption class="sr-only">조기상환액과 수수료는 월 납입액에 포함하지 않습니다.</caption><thead><tr><th scope="col">개월</th><th scope="col">기존 납입액(원)</th><th scope="col">상환 후 납입액(원)</th><th scope="col">상환 후 잔액(원)</th></tr></thead><tbody id="loan-rows"></tbody></table></div></details>
   <button type="button" class="reset-calculator" id="reset-loan">대출 입력값 초기화</button>
 </section>
@@ -205,20 +206,21 @@
   <div class="calc-fields">
     <label>통화<select id="stock-currency"><option value="KRW">원화 (원)</option><option value="USD">달러 (USD)</option></select></label>
     <label>기존 평균 매입가<span class="unit-input"><input id="stock-price" type="number" min="0.000001" max="1000000000" step="any" inputmode="decimal" value="100000" aria-describedby="stock-error"><span class="stock-unit">원</span></span></label>
-    <label>보유 수량<span class="unit-input"><input id="stock-quantity" type="number" min="0.000001" max="1000000000" step="1" inputmode="decimal" value="10" aria-describedby="stock-error"><span>주</span></span></label>
+    <label>보유 수량<span class="unit-input"><input id="stock-quantity" type="number" min="1" max="1000000000" step="1" inputmode="decimal" value="10" aria-describedby="stock-error"><span>주</span></span></label>
     <label>현재 주가<span class="unit-input"><input id="stock-current" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="80000" aria-describedby="stock-error"><span class="stock-unit">원</span></span></label>
     <label>추가 매수가<span class="unit-input"><input id="stock-buy-price" type="number" min="0.000001" max="1000000000" step="any" inputmode="decimal" value="80000" aria-describedby="stock-error"><span class="stock-unit">원</span></span></label>
     <label>추가 매수 방식<select id="stock-mode"><option value="quantity">수량으로 입력</option><option value="amount">금액으로 입력</option></select></label>
-    <label><span id="stock-order-label">추가 매수 수량</span><span class="unit-input"><input id="stock-order" type="number" min="0" max="1000000000000" step="1" inputmode="decimal" value="10" aria-describedby="stock-error"><span id="stock-order-unit">주</span></span></label>
+    <label><span id="stock-order-label">추가 매수 수량</span><span class="unit-input"><input id="stock-order" type="number" min="0" max="1000000000" step="1" inputmode="decimal" value="10" aria-describedby="stock-error"><span id="stock-order-unit">주</span></span></label>
   </div>
   <label class="fractional-option"><input id="stock-fractional" type="checkbox"> 소수점 수량 허용 (최대 6자리)</label>
   <p id="stock-error" class="calc-error" role="alert" hidden></p>
   <div class="calc-result" aria-live="polite" aria-atomic="true"><span>추가 매수 후 평균 매입가</span><strong id="stock-average" data-stock-result>—</strong></div>
   <p id="stock-summary" class="calculation-summary" aria-live="polite"></p>
   <div class="comparison-table table-scroll" tabindex="0" role="region" aria-label="추가 매수 전후 비교"><table><caption class="sr-only">현재 주가 기준 추가 매수 전후 비교</caption><thead><tr><th scope="col">항목</th><th scope="col">매수 전</th><th scope="col">매수 후</th></tr></thead><tbody id="stock-comparison"></tbody></table></div>
+  <p class="calc-note">평단이 낮아져도 손실이 사라지는 것은 아닙니다. 추가 매수 후 주가가 하락하면 손실 금액이 더 커질 수 있습니다.</p>
   <details class="yearly-details target-details" open><summary>목표 평단에 필요한 금액 역산</summary><label class="target-field">목표 평균 매입가<span class="unit-input"><input id="stock-target" type="number" min="0.000001" max="1000000000" step="any" inputmode="decimal" value="85000" aria-describedby="stock-target-result"><span class="stock-unit">원</span></span></label><p id="stock-target-result" class="calculation-summary" aria-live="polite"></p></details>
   <details class="yearly-details" open><summary>주가가 10% 움직이면?</summary><div class="table-scroll" tabindex="0" role="region" aria-label="주가 변동에 따른 평가손익"><table><caption class="sr-only">현재 주가 대비 시나리오별 평가손익</caption><thead><tr><th scope="col">주가</th><th scope="col">추가 매수 안 함</th><th scope="col">추가 매수함</th></tr></thead><tbody id="stock-scenarios"></tbody></table></div></details>
-  <p class="calc-note">현재가와 매수가는 직접 입력하며, 선택한 통화로 모두 계산합니다. 통화 변경은 환전 기능이 아닙니다. 수수료·세금·환율 변동은 제외합니다. 금액 입력 시 매수 가능한 수량과 남는 금액을 표시합니다. 목표 평단 역산은 기존 보유분에 추가로 필요한 전체 수량이며, 위의 예정 매수 수량을 차감하지 않습니다. 평단 변화와 함께 투자금·평가손실 금액도 확인하세요.</p>
+  <p class="calc-note">현재가와 매수가는 직접 입력하며, 선택한 통화로 모두 계산합니다. 통화 변경은 환전 기능이 아닙니다. 수수료·세금·환율 변동은 제외합니다. 원화 금액은 원 단위, 달러 금액은 소수점 2자리로 반올림하며 평단·주가는 최대 소수점 6자리로 표시합니다. 금액 입력 시 매수 가능한 수량과 남는 금액을 표시합니다. 목표 평단 역산은 기존 보유분에 추가로 필요한 전체 수량이며, 위의 예정 매수 수량을 차감하지 않습니다. 평단 변화와 함께 투자금·평가손실 금액도 확인하세요.</p>
   <button type="button" class="reset-calculator" id="reset-stock">물타기 입력값 초기화</button>
 </section>
 </div>

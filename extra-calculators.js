@@ -4,7 +4,7 @@
   const numeric = id => $(id).value.trim() === '' ? NaN : Number($(id).value);
   const integer = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 0 });
   const quantity = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 6 });
-  const won = value => (value < -0.5 ? '−' : '') + integer.format(Math.round(Math.abs(value))) + '원';
+  const won = value => { const rounded = Math.round(Math.abs(value)); return (value < 0 && rounded > 0 ? '−' : '') + integer.format(rounded) + '원'; };
   const percent = value => value === null ? '현재가 0 · 계산 불가' : (Math.abs(value) < 0.005 ? '0.00' : value.toFixed(2)) + '%';
   const set = (id, text, negative = false) => { $(id).textContent = text; $(id).classList.toggle('loss', negative); };
   function cell(tag, text, negative = false) { const el = document.createElement(tag); el.textContent = text; if (tag === 'th') el.scope = 'row'; if (negative) el.className = 'loss'; return el; }
@@ -49,7 +49,7 @@
     if (balloon) $('loan-strategy').value = 'payment';
     try {
       const result = window.HubCalculators.loan({ principal:numeric('loan-principal')*10000, rate:numeric('loan-rate'), months:numeric('loan-months'), extra:numeric('loan-extra')*10000, fee:numeric('loan-fee'), method:$('loan-method').value, strategy:$('loan-strategy').value });
-      set('loan-net-saved',won(result.netSaved),result.netSaved < -0.5);
+      set('loan-net-saved',won(result.netSaved),result.netSaved <= -0.5);
       for (const [side,data] of [['before',result.before],['after',result.after]]) {
         set('loan-first-'+side,won(data.first));set('loan-last-'+side,won(data.last));set('loan-interest-'+side,won(data.interest));set('loan-term-'+side,data.months+'개월');
       }
@@ -65,7 +65,7 @@
   function money(value, price = false) {
     const dollar=$('stock-currency').value==='USD';
     const formatted=new Intl.NumberFormat('ko-KR',{maximumFractionDigits:price?6:(dollar?2:0)}).format(Math.abs(value));
-    return (value < -0.0000001 ? '−' : '') + (dollar?'$':'') + formatted + (dollar?'':'원');
+    return (value < 0 && /[1-9]/.test(formatted) ? '−' : '') + (dollar?'$':'') + formatted + (dollar?'':'원');
   }
   function stockValues() { return {oldPrice:numeric('stock-price'),quantity:numeric('stock-quantity'),current:numeric('stock-current'),buyPrice:numeric('stock-buy-price'),order:numeric('stock-order'),mode:$('stock-mode').value,fractional:$('stock-fractional').checked}; }
   function updateTarget(values) {
@@ -81,7 +81,9 @@
     const mode=$('stock-mode').value, dollar=$('stock-currency').value==='USD',fractional=$('stock-fractional').checked;
     document.querySelectorAll('.stock-unit').forEach(el=>el.textContent=dollar?'USD':'원');
     $('stock-order-label').textContent=mode==='amount'?'추가 투자금액':'추가 매수 수량';$('stock-order-unit').textContent=mode==='amount'?(dollar?'USD':'원'):'주';
-    $('stock-order').step=mode==='amount'||fractional?'any':'1';$('stock-quantity').step=fractional?'any':'1';
+    $('stock-order').step=mode==='amount'?'any':fractional?'0.000001':'1';
+    $('stock-order').max=mode==='amount'?'1000000000000':'1000000000';
+    $('stock-quantity').step=fractional?'0.000001':'1';$('stock-quantity').min=fractional?'0.000001':'1';
     try {
       const values=stockValues(),result=window.HubCalculators.average(values);
       set('stock-average',money(result.averagePrice,true));
@@ -96,7 +98,7 @@
       $('stock-scenarios').replaceChildren(scenarios);updateTarget(values);
     } catch(cause) { fail('stock-workspace','stock-error',cause,'[data-stock-result]',['stock-comparison','stock-scenarios']);$('stock-summary').textContent='';$('stock-target-result').textContent='기본 입력값을 확인해 주세요.'; }
   }
-  $('stock-mode').addEventListener('change',()=>{const old=numeric('stock-order'),price=numeric('stock-buy-price');if(Number.isFinite(old)&&Number.isFinite(price)&&price>0)$('stock-order').value=String(lastStockMode==='quantity'?old*price:($('stock-fractional').checked?old/price:Math.floor(old/price)));lastStockMode=$('stock-mode').value;updateStock();});
+  $('stock-mode').addEventListener('change',()=>{const old=numeric('stock-order'),price=numeric('stock-buy-price');if(Number.isFinite(old)&&Number.isFinite(price)&&price>0)$('stock-order').value=String(lastStockMode==='quantity'?old*price:window.HubCalculators.purchasableQuantity(old,price,$('stock-fractional').checked));lastStockMode=$('stock-mode').value;updateStock();});
   $('stock-workspace').querySelectorAll('input,select').forEach(input=>input.addEventListener('input',updateStock));
   $('reset-stock').addEventListener('click',()=>{for(const [id,value] of Object.entries({'stock-currency':'KRW','stock-price':100000,'stock-quantity':10,'stock-current':80000,'stock-buy-price':80000,'stock-mode':'quantity','stock-order':10,'stock-target':85000}))$(id).value=String(value);$('stock-fractional').checked=false;lastStockMode='quantity';updateStock();});
   updateLoan();updateStock();

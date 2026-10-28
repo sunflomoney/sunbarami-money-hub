@@ -121,8 +121,12 @@ const inflationSummary = document.getElementById('inflation-summary');
 const bar = document.querySelector('.split-bar');
 const number = new Intl.NumberFormat('ko-KR', {maximumFractionDigits:0});
 function formatMan(value) {
+  if (Math.abs(value) < 1) {
+    const won = Math.round(Math.abs(value) * 10000);
+    return (value < 0 && won > 0 ? '−' : '') + number.format(won) + ' 원';
+  }
   const rounded = Math.round(Math.abs(value));
-  const sign = value < -0.5 ? '−' : '';
+  const sign = value < 0 && rounded > 0 ? '−' : '';
   if (rounded >= 10000) {
     const billions = Math.floor(rounded / 10000);
     const rest = rounded % 10000;
