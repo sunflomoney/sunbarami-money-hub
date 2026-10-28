@@ -55,12 +55,25 @@
             </div>
           <p class="lead">월급 관리부터 ETF, 배당, 환테크까지.<br>필요한 글을 골라 읽고, 내 숫자로 계산해 보세요.</p>
           <div class="quick-finder">
-<label class="intro-search"><span>궁금한 주제를 찾아보세요</span><input id="quick-search" type="search" placeholder="ISA, 배당, 가계부…" autocomplete="off"></label>
+<label class="intro-search"><span>궁금한 주제를 찾아보세요</span><input id="quick-search" type="search" placeholder="ISA, 배당, 월급 관리…" autocomplete="off"></label>
           <button type="button" id="quick-find">글 찾기</button>
           </div>
-<div class="intro-actions">
-<a href="#calculator">내 투자금 계산하기</a><a href="#explore">전체 핵심글 보기</a>
-</div>
+          <section class="intro-picks" aria-labelledby="intro-picks-title">
+            <div class="intro-picks-heading"><h2 id="intro-picks-title">어디서부터 읽을지 고민이라면</h2><a class="intro-all-posts" href="#explore">전체 핵심글 보기 →</a></div>
+            <ul class="intro-featured-posts">
+              <li><a href="https://blog.naver.com/sunflomoney/223658637503" target="_blank" rel="noopener noreferrer"><span class="intro-post-topic">월급 관리</span><span class="intro-post-copy"><strong>월급날마다 꼭 챙기는 돈 관리 습관</strong><span>매달 반복하는 월급날의 돈 관리 루틴부터.</span></span><span class="intro-post-arrow" aria-hidden="true">↗</span></a></li>
+              <li><a href="https://blog.naver.com/sunflomoney/223489997365" target="_blank" rel="noopener noreferrer"><span class="intro-post-topic">절세 계좌</span><span class="intro-post-copy"><strong>ISA, 왜 먼저 만들어야 할까요?</strong><span>계좌를 만들기 전 알아둘 장점과 가입 조건.</span></span><span class="intro-post-arrow" aria-hidden="true">↗</span></a></li>
+              <li><a href="https://blog.naver.com/sunflomoney/224151272113" target="_blank" rel="noopener noreferrer"><span class="intro-post-topic">배당 투자</span><span class="intro-post-copy"><strong>월 50만 원의 현금흐름, 어떻게 만들었을까?</strong><span>썬바라미가 공개한 배당투자 포트폴리오 읽기.</span></span><span class="intro-post-arrow" aria-hidden="true">↗</span></a></li>
+            </ul>
+          </section>
+          <section class="intro-calculators" aria-labelledby="intro-calculators-title">
+            <div class="intro-calculators-heading"><h2 id="intro-calculators-title">읽었다면, 내 숫자로 확인해 보세요</h2></div>
+            <div class="intro-tool-list">
+              <a class="intro-tool-link" href="#calculator" data-calculator-target="investment"><span class="intro-tool-kind">적립식 투자</span><strong>매달 모으면<br> 얼마가 될까?</strong><span class="intro-tool-description">세금과 물가를 반영한<br> 미래 투자금 확인</span><span class="intro-tool-action">내 투자금 계산하기 →</span></a>
+              <a class="intro-tool-link" href="#calculator" data-calculator-target="loan"><span class="intro-tool-kind">대출 상환</span><strong>미리 갚으면<br> 얼마나 아낄까?</strong><span class="intro-tool-description">월 납입액·남은 이자와<br> 조기상환 전후 비교</span><span class="intro-tool-action">대출 계산하기 →</span></a>
+              <a class="intro-tool-link" href="#calculator" data-calculator-target="stock"><span class="intro-tool-kind">주식 물타기</span><strong>더 사면<br> 평단은 얼마일까?</strong><span class="intro-tool-description">추가 매수 전후 손익과<br> 목표 평단에 필요한 금액</span><span class="intro-tool-action">물타기 계산하기 →</span></a>
+            </div>
+          </section>
 </div>
         <aside class="intro-rail" aria-label="썬바라미와 출간한 책"><div class="character-portrait"><img src="assets/sunbarami-character.webp" width="2048" height="2048" alt="웃고 있는 네잎클로버 썬바라미 캐릭터" fetchpriority="high" decoding="async"></div>
           <section class="bookcase" id="books" aria-labelledby="books-title">

@@ -34,6 +34,14 @@
       if (next >= 0) { event.preventDefault(); activate(tabs[next]); tabs[next].focus(); }
     });
   });
+  document.querySelectorAll('[data-calculator-target]').forEach(link => {
+    link.addEventListener('click', () => {
+      const tab = $('tab-' + link.dataset.calculatorTarget);
+      if (!tabs.includes(tab)) return;
+      activate(tab);
+      requestAnimationFrame(() => tab.focus({ preventScroll: true }));
+    });
+  });
   function updateLoan() {
     clearError('loan-workspace','loan-error');
     const balloon = $('loan-method').value === 'balloon';
