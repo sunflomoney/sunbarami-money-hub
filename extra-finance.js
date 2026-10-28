@@ -12,8 +12,7 @@
     return (up ? Math.ceil(adjusted) : Math.floor(adjusted)) / scale;
   }
   function quantityPrecision(value, field) {
-    const rounded = Math.round(value * 1e6) / 1e6;
-    if (Math.abs(value - rounded) > 16 * Number.EPSILON * Math.max(1, Math.abs(value))) {
+    if (Number(value.toFixed(6)) !== value) {
       const error = new Error('수량은 소수점 6자리까지 입력해 주세요.'); error.field = field; throw error;
     }
   }
